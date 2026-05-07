@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 本機備份資料 (絕對不要 commit)
+backup/
+backups/
+*.bson
+*.dump
+dump/
+
+# 環境變數
+.env
+.env.*
+!.env.example
+
+# Docker 暫存
+*.tar
