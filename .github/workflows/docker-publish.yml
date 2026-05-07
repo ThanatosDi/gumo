@@ -109,11 +109,25 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
             type=sha,format=short
 
+      # merge-images-digests action 預期的 tags 是「純 tag 名稱」（latest / main / v1.0.0），
+      # 不是 metadata-action 預設輸出的 image:tag 完整格式，
+      # 所以從 outputs.json 解析 tag-names。
+      - name: Extract tag names
+        id: tagnames
+        env:
+          META_JSON: ${{ steps.meta.outputs.json }}
+        run: |
+          {
+            echo 'names<<EOF'
+            jq -r '."tag-names"[]' <<<"$META_JSON"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Merge digests and push manifest
         uses: ThanatosDi/merge-images-digests@main
         with:
           image-name: ${{ env.IMAGE_NAME }}
           artifact-pattern: digest-*
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.tagnames.outputs.names }}
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
           registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
