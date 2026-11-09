@@ -42,6 +42,7 @@
 ```bash
 docker run --rm -it \
   -v /host/backup:/backup \
+  --add-host=host.docker.internal:host-gateway \
   thanatosdi/gumo:latest
 ```
 
@@ -51,6 +52,7 @@ docker run --rm -it \
 docker run --rm -it \
   -v /host/backup:/backup \
   -e MONGO_HOST=host.docker.internal \
+  --add-host=host.docker.internal:host-gateway \
   thanatosdi/gumo:latest
 ```
 
@@ -61,6 +63,7 @@ docker run --rm -it \
 ```bash
 docker run --rm \
   -v /host/backup:/backup \
+  --add-host=host.docker.internal:host-gateway \
   -e BACKUP_NAME=2026-01-30_dump \
   -e MONGO_HOST=mongo.internal \
   -e MONGO_PORT=27017 \
